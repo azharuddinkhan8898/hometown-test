@@ -1,5 +1,6 @@
 import React from "react";
 import Githubcard from "./githubcard";
+import Githubinput from './gitcardinput';
 import M from 'materialize-css';
 
 function dynamicSort(property) {
@@ -28,12 +29,12 @@ class App extends React.Component {
     users: [],
     username: ""
   };
-  clickHandler = event => {
-    event.preventDefault();
+  clickHandler = username => {
+    // event.preventDefault();
 
-    var resultObject = search(this.textInput.value, this.state.users);
+    var resultObject = search(username, this.state.users);
     if(!resultObject){
-      fetch("https://api.github.com/users/" + this.textInput.value)
+      fetch("https://api.github.com/users/" + username)
             .then(res => res.json())
             .then(result => {
               console.log(result);
@@ -63,11 +64,6 @@ class App extends React.Component {
       users: newArray
     });
   };
-  inputHandler = e => {
-    this.setState({
-      username: e.target.value
-    });
-  };
   sort = val => {
     const array = this.state.users;
     console.log(array, val);
@@ -81,7 +77,8 @@ class App extends React.Component {
       <div className="App">
         <div className="container">
           <div className="row">
-            <div className="col m12">
+            <Githubinput clickHandler = {this.clickHandler} />
+            {/* <div className="col m12">
               <div className="card" style={{ padding: 15 }}>
                 <form id="userForm" onSubmit={this.clickHandler}>
                   <div className="input-field">
@@ -103,7 +100,7 @@ class App extends React.Component {
                   </button>
                 </form>
               </div>
-            </div>
+            </div> */}
           </div>
           {this.state.users.length ? (
             <div className="sorting" style={{ padding: 10 }}>
